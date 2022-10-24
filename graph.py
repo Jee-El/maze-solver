@@ -5,11 +5,11 @@ class Graph:
     def __init__(self, maze, width, height):
         self.width = width
         self.height = height
-        self.vertices = list(
-            product(range(0, height), range(0, width)))
+        self.vertices = tuple(
+            product(range(0, height + 1), range(0, width + 1)))
         self.adjacency_list = self.build_adjacency_list(maze)
 
-    def build_adjacency_list(self, maze, directions=[[0, 1], [1, 0], [-1, 0], [0, -1]]):
+    def build_adjacency_list(self, maze, directions=((0, 1), (1, 0), (-1, 0), (0, -1))):
         adjacency_list = {}
         for vertex in self.vertices:
             adjacent_vertices = []
@@ -26,4 +26,4 @@ class Graph:
     def valid_coordinates(self, coordinates, maze):
         row = coordinates[0]
         column = coordinates[1]
-        return (0 <= column < self.width) and (0 <= row < self.height) and (maze.maze[row][column])
+        return (0 <= row <= self.height) and (0 <= column <= self.width) and (maze.bool_maze[row][column])
