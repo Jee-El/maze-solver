@@ -3,23 +3,35 @@ from sty import fg, rs
 
 class Maze:
     def __init__(self):
-        self.height = 11
-        self.width = 21
-        self.construct_maze()
+        maze_file = open('maze.txt')
 
-    def construct_maze(self):
-        maze_txt = open('maze.txt')
-        maze = list(map(lambda line: line.strip(), maze_txt.readlines()))
-        maze_txt.close()
+        self.hashtag_maze = maze_file.read()
 
-        self.maze = list(map(lambda line: list(
-            map(lambda char: True if char == ' ' else False, line)), maze))
+        maze_file.seek(0)
+
+        maze_rows = [row.replace('\n', '') for row in maze_file.readlines()]
+
+        maze_file.close()
+
+        self.height = len(maze_rows) - 1
+        self.width = len(maze_rows[0]) - 1
+
+        self.bool_maze = self.bool_maze(maze_rows)
+
+    def bool_maze(self, maze_rows):
+        bool_maze = []
+        for row in maze_rows:
+            bool_row = []
+            for char in row:
+                bool_row.append(True if char == ' ' else False)
+            bool_maze.append(bool_row)
+        return bool_maze
 
     def draw_path(self, path):
         maze = []
         for row, col in path:
-            self.maze[row][col] = fg.red + 'X' + fg.rs
-        for line in self.maze:
+            self.bool_maze[row][col] = fg.red + 'X' + fg.rs
+        for line in self.bool_maze:
             for char in line:
                 if char == fg.red + 'X' + fg.rs:
                     maze.append(fg.red + 'X' + fg.rs)
@@ -27,32 +39,5 @@ class Maze:
                     maze.append(' ')
                 else:
                     maze.append('#')
-            maze.append("\n")
+            maze.append('\n')
         print(''.join(maze))
-
-    def valid_coordinates(self, coordinates):
-        row = coordinates[0]
-        column = coordinates[1]
-        return (0 <= column < self.width) and (0 <= row < self.height) and (self.maze[row][column])
-
-    def path(self, start, end, adjacency_list):
-        if not self.valid_coordinates(start) or not self.valid_coordinates(end):
-            return print('Invalid Coordinates')
-        if start == end:
-            return end
-        return self.bfs(start, end, adjacency_list)
-
-    def bfs(self, start, end, adjacency_list):
-        queue = [(start, [start])]
-        visited = {start}
-
-        while queue:
-            vertex, path = queue.pop(0)
-            if vertex == end:
-                return path
-            for adjacent_vertex in adjacency_list[vertex]:
-                if adjacent_vertex in visited:
-                    continue
-                visited.add(adjacent_vertex)
-                new_path = path + [adjacent_vertex]
-                queue.append((adjacent_vertex, new_path))
