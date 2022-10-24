@@ -1,10 +1,18 @@
 from maze import Maze
 from graph import Graph
+from maze_solver import MazeSolver
 
 
 maze = Maze()
+print(maze.hashtag_maze, '\n\n')
+
 width = maze.width
 height = maze.height
+
 graph = Graph(maze, width, height)
-solution_path = maze.path((0, 1), (10, 19), graph.adjacency_list)
-maze.draw_path(solution_path)
+adjacency_list = graph.adjacency_list
+
+maze_solver = MazeSolver(maze, adjacency_list)
+solved_path = maze_solver.solve((0, 0), (20, 30))
+
+maze.draw_path(solved_path)
