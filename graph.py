@@ -26,4 +26,4 @@ class Graph:
     def valid_coordinates(self, coordinates, maze):
         row = coordinates[0]
         column = coordinates[1]
-        return (0 <= row <= self.height) and (0 <= column <= self.width) and (maze.bool_maze[row][column])
+        return (0 <= row <= self.height) and (0 <= column <= self.width) and (maze.to_bool[row][column])
