@@ -10,11 +10,13 @@ class MazeSolver:
             return False
         if not (0 <= column <= self.maze.width):
             return False
-        if not (self.maze.bool_maze[row][column]):
+        if not (self.maze.to_bool[row][column]):
             return False
         return True
 
-    def solve(self, start, end):
+    def solve(self, start=None, end=None):
+        start = start or self.maze.start
+        end = end or self.maze.end
         if not self.valid_coordinates(start) or not self.valid_coordinates(end):
             return print('Invalid Coordinates')
         if start == end:

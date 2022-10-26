@@ -1,24 +1,27 @@
 from sty import fg, rs
+from copy import deepcopy
 
 
 class Maze:
     def __init__(self):
         maze_file = open('maze.txt')
 
-        self.hashtag_maze = maze_file.read()
+        self.hashtag_str = maze_file.read()
 
         maze_file.seek(0)
 
-        maze_rows = [row.replace('\n', '') for row in maze_file.readlines()]
+        self.hashtag_arr = self.hashtag_arr(maze_file)
 
         maze_file.close()
 
-        self.height = len(maze_rows) - 1
-        self.width = len(maze_rows[0]) - 1
+        self.to_bool = self.to_bool(self.hashtag_arr)
+        self.border = self.border()
 
-        self.bool_maze = self.bool_maze(maze_rows)
+        self.height = len(self.hashtag_arr) - 1
+        self.width = len(self.hashtag_arr[0]) - 1
+        self.start, self.end = self.start_end()
 
-    def bool_maze(self, maze_rows):
+    def to_bool(self, maze_rows):
         bool_maze = []
         for row in maze_rows:
             bool_row = []
@@ -28,16 +31,40 @@ class Maze:
         return bool_maze
 
     def draw_path(self, path):
-        maze = []
+        hashtag_arr = deepcopy(self.hashtag_arr)
+
+        self.draw_crosses(hashtag_arr, path)
+
+        for row in hashtag_arr:
+            print(''.join(row))
+
+    def draw_crosses(self, maze, path):
+        colored_cross = fg.red + 'X' + fg.rs
         for row, col in path:
-            self.bool_maze[row][col] = fg.red + 'X' + fg.rs
-        for line in self.bool_maze:
-            for char in line:
-                if char == fg.red + 'X' + fg.rs:
-                    maze.append(fg.red + 'X' + fg.rs)
-                elif char:
-                    maze.append(' ')
-                else:
-                    maze.append('#')
-            maze.append('\n')
-        print(''.join(maze))
+            maze[row][col] = colored_cross
+
+    def start_end(self):
+        start, end = (), ()
+        for i in range(len(self.border)):
+            if i % 2:
+                row_coordinate = i and self.height
+            else:
+                row_coordinate = i and self.width
+
+            if start and end:
+                return (start, end)
+            if not start:
+                start = (row_coordinate, self.border[i].index(True))
+                continue
+            if not end:
+                end = (row_coordinate, self.border[i].index(True))
+
+    def border(self):
+        first_row = self.to_bool[0]
+        last_row = self.to_bool[-1]
+        first_col = [row[0] for row in self.to_bool]
+        last_col = [row[-1] for row in self.to_bool]
+        return (first_row, last_row, first_col, last_col)
+
+    def hashtag_arr(self, maze_file):
+        return [list(row.replace('\n', '')) for row in maze_file.readlines()]
