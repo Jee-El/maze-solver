@@ -3,9 +3,7 @@ from copy import deepcopy
 
 
 class Maze:
-    def __init__(self):
-        maze_file = open('maze.txt')
-
+    def __init__(self, maze_file):
         self.hashtag_str = maze_file.read()
 
         maze_file.seek(0)
