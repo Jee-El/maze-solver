@@ -20,13 +20,7 @@ class Maze:
         self.start, self.end = self.start_end()
 
     def to_bool(self, maze_rows):
-        bool_maze = []
-        for row in maze_rows:
-            bool_row = []
-            for char in row:
-                bool_row.append(True if char == ' ' else False)
-            bool_maze.append(bool_row)
-        return bool_maze
+        return [[True if char == ' ' else False for char in row] for row in maze_rows]
 
     def draw_path(self, path):
         hashtag_arr = deepcopy(self.hashtag_arr)
