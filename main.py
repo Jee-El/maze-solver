@@ -9,7 +9,6 @@ print(maze.hashtag_str, '\n\n')
 width = maze.width
 height = maze.height
 
-print(maze.start, maze.end)
 graph = Graph(maze, width, height)
 adjacency_list = graph.adjacency_list
 
