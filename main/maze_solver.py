@@ -31,16 +31,6 @@ class MazeSolver:
 
     return self.__bfs(gui, start, end)
 
-  def solve_with_dfs(self, gui):
-    start = self.maze.start
-    end = self.maze.end
-
-    for coordinates in (start, end):
-      if not self.are_valid_coordinates(coordinates):
-        return
-
-    return self.__dfs(start, end, [(start, [start])], {start})
-
   def __bfs(self, gui, start, end):
     queue = [(start, [start])]
     visited_vertices = {start}
@@ -49,14 +39,13 @@ class MazeSolver:
       vertex, path = queue.pop(0)
       self.bfs_explored_states += 1
 
-      gui.draw_path(path)
-      pygame.display.flip()
       while self.enter_is_not_pressed():
         pass
+      gui.draw_path(path)
+      pygame.display.flip()
 
       if vertex == end:
         print(f'Explored states: {self.bfs_explored_states}')
-        self.bfs_explored_states = 0
         return path
 
       for adjacent_vertex in self.adjacency_list[vertex]:
@@ -67,23 +56,29 @@ class MazeSolver:
         queue.append((adjacent_vertex, new_path))
     raise Exception('No Solution')
 
-  def __dfs(
-    self, gui, start, end, queue, visited_vertices, explored_states = 0
-    ):
+  def solve_with_dfs(self, gui):
+    start = self.maze.start
+    end = self.maze.end
+    for coordinates in (start, end):
+      if not self.are_valid_coordinates(coordinates):
+        return
+
+    return self.__dfs(gui, start, end, [(start, [start])], {start})
+  
+  def __dfs(self, gui, start, end, queue, visited_vertices):
     if not queue:
       raise Exception('No Solution')
       
     vertex, path = queue.pop(0)
     self.dfs_explored_states += 1
 
-    gui.draw_path(path)
-    pygame.display.flip()
     while self.enter_is_not_pressed():
       pass
+    gui.draw_path(path)
+    pygame.display.flip()
 
     if vertex == end:
       print(f'Explored states: {self.dfs_explored_states}')
-      self.dfs_explored_states = 0
       return path
 
     for adjacent_vertex in self.adjacency_list[vertex]:
@@ -92,7 +87,7 @@ class MazeSolver:
       visited_vertices.add(adjacent_vertex)
       new_path = path + [adjacent_vertex]
       new_queue = queue + [(adjacent_vertex, new_path)]
-      solved_path = self.__dfs(start, end, new_queue, visited_vertices, explored_states)
+      solved_path = self.__dfs(gui, start, end, new_queue, visited_vertices)
 
       if solved_path:
         return solved_path
