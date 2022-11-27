@@ -15,7 +15,7 @@ class MazeSolver:
     if (
         not (0 <= row < self.maze.height)
         or not (0 <= column < self.maze.width)
-        or not (self.maze.to_bool[row][column])
+        or not (self.maze.bool_list[row][column])
       ):
       print('>> Invalid Coordinates')
       return False

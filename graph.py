@@ -33,5 +33,5 @@ class Graph:
     return (
             (0 <= row < self.maze.height)
             and (0 <= column < self.maze.width)
-            and (self.maze.to_bool[row][column])
+            and (self.maze.bool_list[row][column])
     )
