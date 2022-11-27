@@ -14,7 +14,8 @@ class GUI:
     self.char_to_color = {
       '#': 'black',
       ' ': 'white',
-      'X': 'blue',
+      'X': 'brown1',
+      'O': 'chartreuse3',
       'A': 'red',
       'B': 'green'
     }
@@ -31,28 +32,27 @@ class GUI:
       self.__screen.fill((255, 255, 255))
 
       if not solved:
-          self.draw_maze(self.maze.hashtag_arr)
+          self.draw_maze()
           pygame.display.flip()
           solved_path = self.algorithm(self)
           solved = True
-      self.draw_path(solved_path)
+      self.draw_path(solved_path, True)
       pygame.display.flip()
     pygame.quit()
 
-  def draw_maze(self, maze):
+  def draw_maze(self):
     top_margin = 0
-    for row in maze:
+    for row in self.maze.hashtag_arr:
       left_margin = 0
       for col in row:
         self.draw_square(left_margin, top_margin, self.char_to_color[col])
         left_margin += self.square_size
       top_margin += self.square_size
 
-  def draw_path(self, path):
-    hashtag_arr = deepcopy(self.maze.hashtag_arr)
+  def draw_path(self, path, solved=False):
     for row, col in path:
-      hashtag_arr[row][col] = 'X'
-    self.draw_maze(hashtag_arr)
+      self.maze.hashtag_arr[row][col] = 'O' if solved else 'X'
+    self.draw_maze()
 
   def draw_square(self, left_margin, top_margin, color):
     square = pygame.Rect(
