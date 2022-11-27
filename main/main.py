@@ -30,9 +30,9 @@ def get_algorithm_name(str_nums_to_algorithm_names):
 
 str_nums_to_maze_fns = {
   '1': 'dfs_worst_case',
-  '2': 'first_maze',
-  '3': 'second_maze',
-  '4': 'third_maze'
+  '2': 'bfs_worst_case',
+  '3': 'third_maze',
+  '4': 'fourth_maze'
 }
 
 str_nums_to_algorithm_names = {
