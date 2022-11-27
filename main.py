@@ -45,7 +45,7 @@ for num in nums_to_maze_fns:
     fn = nums_to_maze_fns[num]
     print(f'{num} : {fn}')
 
-maze_to_solve = input('> Number : '))
+maze_to_solve = input('> Number : ')
 while maze_to_solve not in nums_to_maze_fns:
     maze_to_solve = input('> Number : ')
     
