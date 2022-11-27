@@ -23,3 +23,9 @@ I made this project for two reasons :
     - Everything else is represented with an empty space.
    
 - Both Depth-First-Algorithm and Breadth-First-Algorithm are implemented and available for use.
+
+# Requirements to run this project :
+
+- Python (I tested the project on python 3.9 and 3.11)
+
+- PyGame
