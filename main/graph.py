@@ -21,13 +21,12 @@ class Graph:
         row = direction[0] + vertex[0]
         column = direction[1] + vertex[1]
         coordinates = row, column
-        if not self.are_valid_coordinates(coordinates):
-          continue
-        adjacent_vertices.append(coordinates)
+        if self.__are_valid_coordinates(coordinates):
+          adjacent_vertices.append(coordinates)
       adjacency_list[vertex] = adjacent_vertices
     return adjacency_list
 
-  def are_valid_coordinates(self, coordinates):
+  def __are_valid_coordinates(self, coordinates):
     row = coordinates[0]
     column = coordinates[1]
     return (
