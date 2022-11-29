@@ -1,5 +1,3 @@
-from os import system
-from time import sleep
 import pygame
 
 class MazeSolver:
