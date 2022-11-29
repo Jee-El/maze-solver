@@ -15,14 +15,12 @@ class Maze:
 
   def to_bool_list(self, maze_rows):
     return [
-        [True if char in [' ', 'A', 'B'] else False for char in row] for row in maze_rows
+        [True if char.upper() in [' ', 'A', 'B'] else False for char in row] for row in maze_rows
     ]
 
   def to_hashtag_arr(self, maze_file):
-    maze_file.seek(0)
-    return [
-        list(row.replace('\n', '')) for row in maze_file.readlines()
-    ]
+    maze_rows = self.__remove_new_line_char(maze_file)
+    return self.__to_upper_case(maze_rows)
 
   def start_and_end(self, maze):
     start, end = None, None
@@ -33,3 +31,14 @@ class Maze:
         end = (i, maze[i].index('B'))
       if start and end:
         return (start, end)
+      
+  def __remove_new_line_char(self, maze_file):
+    maze_file.seek(0)
+    return [
+        list(row.replace('\n', '')) for row in maze_file.readlines()
+    ]
+
+  def __to_upper_case(self, maze):
+    return [
+      [col.upper() for col in row] for row in maze
+    ]
