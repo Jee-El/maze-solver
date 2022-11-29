@@ -25,7 +25,7 @@ def get_maze(nums_to_maze_fns):
 def get_algorithm_name(str_nums_to_algorithm_names):
   str_num = input('> Number : ')
   while str_num not in str_nums_to_algorithm_names:
-    algorithm = input('1 -> BFS\n2 -> DFS')
+    str_num = input('> Number : ')
   return str_nums_to_algorithm_names[str_num]
 
 str_nums_to_maze_fns = {
