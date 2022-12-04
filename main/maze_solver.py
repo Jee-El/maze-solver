@@ -80,7 +80,7 @@ class MazeSolver:
 
     while not priority_queue.empty():
       _, vertex, path = priority_queue.get()
-      self.bfs_explored_states += 1
+      self.gbfs_explored_states += 1
 
       while self.__enter_is_not_pressed():
         pass
@@ -88,7 +88,7 @@ class MazeSolver:
       pygame.display.flip()
 
       if vertex == end:
-        print('Explored states : ', self.bfs_explored_states)
+        print('Explored states : ', self.gbfs_explored_states)
         return path
 
       for adjacent_vertex in self.adjacency_list[vertex]:
