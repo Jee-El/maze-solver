@@ -30,7 +30,7 @@ class Maze:
 
   def __to_list(self):
     maze_list = self.to_str.split('\n')
-    self.list = [[*el.upper()] for el in maze_list]
+    self.list = [[*line.upper()] for line in maze_list]
     return self.list
 
   def __no_start_or_no_end(self):

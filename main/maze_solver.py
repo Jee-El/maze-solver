@@ -10,16 +10,14 @@ class MazeSolver:
   def solve_with_bfs(self, gui):
     start = self.maze.start
     end = self.maze.end
-    if solution := self.__bfs(gui, start, end):
-      return solution
-    self.__no_solution_found()
+    solution = self.__bfs(gui, start, end)
+    return solution or self.__no_solution_found()
 
   def solve_with_dfs(self, gui):
     start = self.maze.start
     end = self.maze.end
-    if solution := self.__dfs(gui, start, end, [(start, [start])], {start}):
-      return solution
-    self.__no_solution_found()
+    solution = self.__dfs(gui, start, end, [(start, [start])], {start})
+    return solution or self.__no_solution_found()
 
   def __bfs(self, gui, start, end):
     queue = [(start, [start])]
