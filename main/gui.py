@@ -4,6 +4,7 @@ class GUI:
   def __init__(self, maze, maze_solver, algorithm_name):
     self.maze = maze
     self.maze_solver = maze_solver
+    self.is_gbfs = algorithm_name == 'gbfs'
     self.algorithm = self.get_algorithm(algorithm_name)
     self.square_size = 50
     pygame.display.set_caption('Maze Solver by Jee El')
@@ -14,7 +15,7 @@ class GUI:
     self.char_to_color = {
       '#': 'black',
       ' ': 'white',
-      'X': 'brown1',
+      'X': 'dodgerblue1',
       'O': 'chartreuse3',
       'A': 'red',
       'B': 'green'
@@ -22,8 +23,8 @@ class GUI:
 
   def launch(self):
     pygame.init()
-    clock = pygame.time.Clock()
     self.font = pygame.font.SysFont('Arial', 25)
+    clock = pygame.time.Clock()
     solved = False
 
     while self.running:
@@ -34,32 +35,31 @@ class GUI:
       self.__screen.fill((255, 255, 255))
 
       if not solved:
-          self.draw_maze()
-          pygame.display.flip()
-          solved_path = self.algorithm(self)
-          solved = True
-      self.draw_path(solved_path, solved=True)
-      self.running = False
-      pygame.display.flip()
+        self.draw_maze()
+        pygame.display.flip()
+        solved_path = self.algorithm(self)
+        solved = True
+        self.draw_path(solved_path, solved=True)
+        pygame.display.flip()
     pygame.quit()
 
-  def draw_maze(self, is_gbfs=False):
+  def draw_maze(self):
     top_margin = 0
     for i in range(len(self.maze.list)):
       left_margin = 0
       for j in range(len(self.maze.list[i])):
         char = self.maze.list[i][j]
         self.draw_square(left_margin, top_margin, self.char_to_color[char])
-        if is_gbfs:
+        if self.is_gbfs:
           manhattan_distance = self.get_manhattan_distance((i, j), self.maze.end)
           self.draw_manhattan_distance(left_margin, top_margin, manhattan_distance)
         left_margin += self.square_size
       top_margin += self.square_size
 
-  def draw_path(self, path, is_gbfs=False, solved=False):
+  def draw_path(self, path, solved=False):
     for row, col in path:
       self.maze.list[row][col] = 'O' if solved else 'X'
-    self.draw_maze(is_gbfs)
+    self.draw_maze()
 
   def draw_square(self, left_margin, top_margin, color):
     square = pygame.Rect(

@@ -85,7 +85,7 @@ class MazeSolver:
 
       while self.__enter_is_not_pressed():
         pass
-      gui.draw_path(path, is_gbfs=True)
+      gui.draw_path(path)
       pygame.display.flip()
 
       if vertex == end:
