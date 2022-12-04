@@ -62,7 +62,8 @@ class GUI:
 
   def get_algorithm(self, algorithm_name):
     algorithms = {
+      'dfs': self.maze_solver.solve_with_dfs,
       'bfs': self.maze_solver.solve_with_bfs,
-      'dfs': self.maze_solver.solve_with_dfs
+      'gbfs': self.maze_solver.solve_with_gbfs
     }
     return algorithms[algorithm_name]

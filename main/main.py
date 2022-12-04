@@ -35,8 +35,9 @@ maze_fns = {
 }
 
 algo_names = {
-    '1': 'bfs',
-    '2': 'dfs'
+  '1': 'dfs',
+  '2': 'bfs',
+  '3': 'gbfs'
 }
 
 display_menu(maze_fns)
