@@ -7,6 +7,7 @@ class GUI:
     self.maze_solver = maze_solver
     self.algorithm = self.get_algorithm(algorithm_name)
     self.square_size = 50
+    pygame.display.set_caption('Maze Solver by Jee El')
     self.__screen = pygame.display.set_mode(
       [self.maze.width * self.square_size, self.maze.height * self.square_size]
     )
