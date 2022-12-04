@@ -75,7 +75,8 @@ class MazeSolver:
 
   def __gbfs(self, gui, start, end):
     priority_queue = PriorityQueue()
-    priority_queue.put((self.manhattan_distance(start, end), start, [start]))
+    manhattan_distance = self.get_manhattan_distance(start, end) 
+    priority_queue.put((manhattan_distance, start, [start]))
     visited_vertices = {start}
 
     while not priority_queue.empty():
@@ -84,7 +85,7 @@ class MazeSolver:
 
       while self.__enter_is_not_pressed():
         pass
-      gui.draw_path(path)
+      gui.draw_path(path, is_gbfs=True)
       pygame.display.flip()
 
       if vertex == end:
@@ -95,9 +96,10 @@ class MazeSolver:
         if adjacent_vertex not in visited_vertices:
           visited_vertices.add(adjacent_vertex)
           new_path = path + [adjacent_vertex]
-          priority_queue.put((self.manhattan_distance(adjacent_vertex, end), adjacent_vertex, new_path))
+          manhattan_distance = self.get_manhattan_distance(adjacent_vertex, end)
+          priority_queue.put((manhattan_distance, adjacent_vertex, new_path))
   
-  def manhattan_distance(self, start, end):
+  def get_manhattan_distance(self, start, end):
     return abs(start[0] - end[0]) + abs(start[1] - end[1])
 
   def __enter_is_not_pressed(self):

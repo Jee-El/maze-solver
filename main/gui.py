@@ -1,5 +1,4 @@
 import pygame
-from copy import deepcopy
 
 class GUI:
   def __init__(self, maze, maze_solver, algorithm_name):
@@ -24,7 +23,9 @@ class GUI:
   def launch(self):
     pygame.init()
     clock = pygame.time.Clock()
+    self.font = pygame.font.SysFont('Arial', 25)
     solved = False
+
     while self.running:
       clock.tick(60)
       for event in pygame.event.get():
@@ -37,29 +38,40 @@ class GUI:
           pygame.display.flip()
           solved_path = self.algorithm(self)
           solved = True
-      self.draw_path(solved_path, True)
+      self.draw_path(solved_path, solved=True)
+      self.running = False
       pygame.display.flip()
     pygame.quit()
 
-  def draw_maze(self):
+  def draw_maze(self, is_gbfs=False):
     top_margin = 0
-    for row in self.maze.list:
+    for i in range(len(self.maze.list)):
       left_margin = 0
-      for char in row:
+      for j in range(len(self.maze.list[i])):
+        char = self.maze.list[i][j]
         self.draw_square(left_margin, top_margin, self.char_to_color[char])
+        if is_gbfs:
+          manhattan_distance = self.get_manhattan_distance((i, j), self.maze.end)
+          self.draw_manhattan_distance(left_margin, top_margin, manhattan_distance)
         left_margin += self.square_size
       top_margin += self.square_size
 
-  def draw_path(self, path, solved=False):
+  def draw_path(self, path, is_gbfs=False, solved=False):
     for row, col in path:
       self.maze.list[row][col] = 'O' if solved else 'X'
-    self.draw_maze()
+    self.draw_maze(is_gbfs)
 
   def draw_square(self, left_margin, top_margin, color):
     square = pygame.Rect(
       left_margin, top_margin, self.square_size, self.square_size
     )
     pygame.draw.rect(self.__screen, color, square)
+
+  def draw_manhattan_distance(self, left_margin, top_margin, manhattan_distance):
+    text = self.font.render(str(manhattan_distance), True, (0, 0, 0))
+    left_margin += (self.square_size - text.get_width()) / 2
+    top_margin += (self.square_size - text.get_height()) / 2
+    self.__screen.blit(text, (left_margin, top_margin))
 
   def get_algorithm(self, algorithm_name):
     algorithms = {
@@ -68,3 +80,6 @@ class GUI:
       'gbfs': self.maze_solver.solve_with_gbfs
     }
     return algorithms[algorithm_name]
+  
+  def get_manhattan_distance(self, start, end):
+    return abs(start[0] - end[0]) + abs(start[1] - end[1])
