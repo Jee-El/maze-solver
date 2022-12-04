@@ -22,7 +22,13 @@ I made this project for two reasons :
     
     - Everything else is represented with an empty space.
    
-- Both Depth-First-Algorithm and Breadth-First-Algorithm are implemented and available for use.
+- It has these algorithms implemented and available for use :
+
+  - Depth-First-Search
+ 
+  - Breadth-First-Search
+  
+  - Greedy Best-First-Search
 
 # Requirements to run this project :
 
