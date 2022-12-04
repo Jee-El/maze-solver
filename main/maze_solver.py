@@ -10,24 +10,16 @@ class MazeSolver:
   def solve_with_bfs(self, gui):
     start = self.maze.start
     end = self.maze.end
-
-    for coordinates in (start, end):
-      if not self.__are_valid_coordinates(coordinates):
-        return
     if solution := self.__bfs(gui, start, end):
       return solution
-    raise Exception('No Solution')
+    self.__no_solution_found()
 
   def solve_with_dfs(self, gui):
     start = self.maze.start
     end = self.maze.end
-    for coordinates in (start, end):
-      if not self.__are_valid_coordinates(coordinates):
-        return
-
     if solution := self.__dfs(gui, start, end, [(start, [start])], {start}):
       return solution
-    raise Exception('No Solution')
+    self.__no_solution_found()
 
   def __bfs(self, gui, start, end):
     queue = [(start, [start])]
@@ -43,15 +35,14 @@ class MazeSolver:
       pygame.display.flip()
 
       if vertex == end:
-        print(f'Explored states: {self.bfs_explored_states}')
+        print('Explored states : ', self.bfs_explored_states)
         return path
 
       for adjacent_vertex in self.adjacency_list[vertex]:
-        if adjacent_vertex in visited_vertices:
-          continue
-        visited_vertices.add(adjacent_vertex)
-        new_path = path + [adjacent_vertex]
-        queue.append((adjacent_vertex, new_path))
+        if adjacent_vertex not in visited_vertices:
+          visited_vertices.add(adjacent_vertex)
+          new_path = path + [adjacent_vertex]
+          queue.append((adjacent_vertex, new_path))
   
   def __dfs(self, gui, start, end, queue, visited_vertices):      
     vertex, path = queue.pop(0)
@@ -63,31 +54,18 @@ class MazeSolver:
     pygame.display.flip()
 
     if vertex == end:
-      print(f'Explored states: {self.dfs_explored_states}')
+      print('Explored states : ', self.dfs_explored_states)
       return path
 
     for adjacent_vertex in self.adjacency_list[vertex]:
-      if adjacent_vertex in visited_vertices:
-        continue
-      visited_vertices.add(adjacent_vertex)
-      new_path = path + [adjacent_vertex]
-      new_queue = queue + [(adjacent_vertex, new_path)]
-      solved_path = self.__dfs(gui, start, end, new_queue, visited_vertices)
+      if adjacent_vertex not in visited_vertices:
+        visited_vertices.add(adjacent_vertex)
+        new_path = path + [adjacent_vertex]
+        new_queue = queue + [(adjacent_vertex, new_path)]
+        solved_path = self.__dfs(gui, start, end, new_queue, visited_vertices)
 
-      if solved_path:
-        return solved_path
-
-  def __are_valid_coordinates(self, coordinates):
-    row = coordinates[0]
-    column = coordinates[1]
-    if (
-        not (0 <= row < self.maze.height)
-        or not (0 <= column < self.maze.width)
-        or not (self.maze.bool_list[row][column])
-      ):
-      print('>> Invalid Coordinates')
-      return False
-    return True
+        if solved_path:
+          return solved_path
 
   def __enter_is_not_pressed(self):
     for event in pygame.event.get():
@@ -95,3 +73,6 @@ class MazeSolver:
         if event.key == pygame.K_RETURN:
           return False
     return True
+
+  def __no_solution_found(self):
+    raise Exception('No Solution was found')

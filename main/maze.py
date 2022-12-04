@@ -1,44 +1,41 @@
 class Maze:
   def __init__(self, maze_file):
-    self.hashtag_str = maze_file.read()
-
-    self.hashtag_arr = self.to_hashtag_arr(maze_file)
-
+    self.to_str = maze_file.read()
     maze_file.close()
 
-    self.start, self.end = self.start_and_end(self.hashtag_arr)
+    self.__to_list()
+    self.__to_bool_list()
 
-    self.bool_list = self.to_bool_list(self.hashtag_arr)
+    self.start, self.end = self.start_and_end()
 
-    self.height = len(self.hashtag_arr)
-    self.width = len(self.hashtag_arr[0])
+    self.height = len(self.list)
+    self.width = len(self.list[0])
 
-  def to_bool_list(self, maze_rows):
-    return [
-        [True if char.upper() in [' ', 'A', 'B'] else False for char in row] for row in maze_rows
-    ]
-
-  def to_hashtag_arr(self, maze_file):
-    maze_rows = self.__remove_new_line_char(maze_file)
-    return self.__to_upper_case(maze_rows)
-
-  def start_and_end(self, maze):
+  def start_and_end(self):
     start, end = None, None
-    for i in range(len(maze)):
-      if not start and 'A' in maze[i]:
-        start = (i, maze[i].index('A'))
-      if not end and 'B' in maze[i]:
-        end = (i, maze[i].index('B'))
+    for i in range(len(self.list)):
+      if not start and 'A' in self.list[i]:
+        start = (i, self.list[i].index('A'))
+      if not end and 'B' in self.list[i]:
+        end = (i, self.list[i].index('B'))
       if start and end:
         return (start, end)
-      
-  def __remove_new_line_char(self, maze_file):
-    maze_file.seek(0)
-    return [
-        list(row.replace('\n', '')) for row in maze_file.readlines()
-    ]
+    self.__no_start_or_no_end()
 
-  def __to_upper_case(self, maze):
-    return [
-      [col.upper() for col in row] for row in maze
+  def __to_bool_list(self):
+    self.bool_list = [
+      [char in [' ', 'A', 'B'] for char in row] for row in self.list
     ]
+    return self.bool_list
+
+  def __to_list(self):
+    maze_list = self.to_str.split('\n')
+    self.list = [[*el.upper()] for el in maze_list]
+    return self.list
+
+  def __no_start_or_no_end(self):
+    error_msg = """
+      A starting point and/or an ending point were/was not found.
+      Make sure to mark them, respectively, with A and B in your maze text file.
+    """
+    raise Exception(error_msg)

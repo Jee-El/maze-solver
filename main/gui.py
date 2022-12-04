@@ -42,16 +42,16 @@ class GUI:
 
   def draw_maze(self):
     top_margin = 0
-    for row in self.maze.hashtag_arr:
+    for row in self.maze.list:
       left_margin = 0
-      for col in row:
-        self.draw_square(left_margin, top_margin, self.char_to_color[col])
+      for char in row:
+        self.draw_square(left_margin, top_margin, self.char_to_color[char])
         left_margin += self.square_size
       top_margin += self.square_size
 
   def draw_path(self, path, solved=False):
     for row, col in path:
-      self.maze.hashtag_arr[row][col] = 'O' if solved else 'X'
+      self.maze.list[row][col] = 'O' if solved else 'X'
     self.draw_maze()
 
   def draw_square(self, left_margin, top_margin, color):

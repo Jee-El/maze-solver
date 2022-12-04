@@ -3,47 +3,46 @@ from maze import Maze
 from graph import Graph
 from maze_solver import MazeSolver
 
-def solve_maze(maze_fn, algorithm_name):
-  opened_maze_file = open(maze_fn + '.txt')
-  maze = Maze(opened_maze_file)
+def solve_maze(maze_fn, algo_name):
+  maze_file = open(maze_fn + '.txt')
+  maze = Maze(maze_file)
   graph = Graph(maze)
   adjacency_list = graph.adjacency_list
   maze_solver = MazeSolver(maze, adjacency_list)
-  GUI(maze, maze_solver, algorithm_name).launch()
+  GUI(maze, maze_solver, algo_name).launch()
 
-def display_options(nums_to_maze_fns):  
-  for num in nums_to_maze_fns:
-    fn = nums_to_maze_fns[num]
-    print(f'{num} : {fn}')
+def display_menu(menu: dict):  
+  for key, value in menu.items():
+    print(key, value, sep=' : ')
 
-def get_maze(nums_to_maze_fns):
+def get_maze(maze_fns: dict):
   str_num = input('> Number : ')
-  while str_num not in nums_to_maze_fns:
+  while str_num not in maze_fns:
     str_num = input('> Number : ')
-  return nums_to_maze_fns[str_num]
+  return maze_fns[str_num]
 
-def get_algorithm_name(str_nums_to_algorithm_names):
+def get_algo_name(algo_names: dict):
   str_num = input('> Number : ')
-  while str_num not in str_nums_to_algorithm_names:
+  while str_num not in algo_names:
     str_num = input('> Number : ')
-  return str_nums_to_algorithm_names[str_num]
+  return algo_names[str_num]
 
-str_nums_to_maze_fns = {
+maze_fns = {
   '1': 'dfs_worst_case',
   '2': 'bfs_worst_case',
   '3': 'third_maze',
   '4': 'fourth_maze'
 }
 
-str_nums_to_algorithm_names = {
+algo_names = {
     '1': 'bfs',
     '2': 'dfs'
 }
 
-display_options(str_nums_to_maze_fns)
-maze_to_solve = get_maze(str_nums_to_maze_fns)
+display_menu(maze_fns)
+maze_to_solve = get_maze(maze_fns)
 
-display_options(str_nums_to_algorithm_names)
-algorithm_name = get_algorithm_name(str_nums_to_algorithm_names)
+display_menu(algo_names)
+algorithm_name = get_algo_name(algo_names)
 
 solve_maze(maze_to_solve, algorithm_name)

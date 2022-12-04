@@ -9,9 +9,9 @@ class Graph:
         range(0, self.maze.width)
       )
     )
-    self.adjacency_list = self.build_adjacency_list()
+    self.adjacency_list = self.__build_adjacency_list()
 
-  def build_adjacency_list(
+  def __build_adjacency_list(
     self, directions=((0, 1), (1, 0), (-1, 0), (0, -1))
     ):
     adjacency_list = {}
