@@ -33,7 +33,7 @@ class MazeSolver:
 
     while self.__enter_is_not_pressed():
       pass
-    gui.draw_path(path)
+    gui.draw_maze(path)
     pygame.display.flip()
 
     if vertex == end:
@@ -60,7 +60,7 @@ class MazeSolver:
 
       while self.__enter_is_not_pressed():
         pass
-      gui.draw_path(path)
+      gui.draw_maze(path)
       pygame.display.flip()
 
       if vertex == end:
@@ -85,7 +85,7 @@ class MazeSolver:
 
       while self.__enter_is_not_pressed():
         pass
-      gui.draw_path(path)
+      gui.draw_maze(path)
       pygame.display.flip()
 
       if vertex == end:
