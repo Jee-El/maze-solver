@@ -6,12 +6,12 @@ class Maze:
         self.__to_list()
         self.__to_bool_list()
 
-        self.start, self.end = self.start_and_end()
+        self.start, self.end = self.__start_and_end()
 
         self.height = len(self.list)
         self.width = len(self.list[0])
 
-    def start_and_end(self):
+    def __start_and_end(self):
         start, end = None, None
         for i in range(len(self.list)):
             if not start and "A" in self.list[i]:
