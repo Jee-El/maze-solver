@@ -24,6 +24,7 @@ class GUI:
             "B": "green",
         }
         self._running = True
+        self.escape_is_pressed = False
 
     def launch(self):
         pygame.init()
@@ -64,7 +65,7 @@ class GUI:
                     *self.squares_margins[(i, j)], self.char_to_color[char]
                 )
                 if self.is_gbfs:
-                    manhattan_distance = self.get_manhattan_distance(
+                    manhattan_distance = self.maze_solver.get_manhattan_distance(
                         (i, j), self.maze.end
                     )
                     self.draw_manhattan_distance(
@@ -78,7 +79,9 @@ class GUI:
                 self.char_to_color["O" if solved else "X"]
             )
             if self.is_gbfs:
-                manhattan_distance = self.get_manhattan_distance((i, j), self.maze.end)
+                manhattan_distance = self.maze_solver.get_manhattan_distance(
+                    (i, j), self.maze.end
+                )
                 self.draw_manhattan_distance(
                     *self.squares_margins[(i, j)], manhattan_distance
                 )
@@ -95,9 +98,6 @@ class GUI:
         top_margin += (self.square_size - text.get_height()) / 2
         self._screen.blit(text, (left_margin, top_margin))
 
-    def get_manhattan_distance(self, start, end):
-        return abs(start[0] - end[0]) + abs(start[1] - end[1])
-
     def __set_algorithm(self, algorithm_name):
         algorithms = {
             "dfs": self.maze_solver.solve_with_dfs,
@@ -105,3 +105,13 @@ class GUI:
             "gbfs": self.maze_solver.solve_with_gbfs,
         }
         self.solve = algorithms[algorithm_name]
+
+    def pause(self):
+        if self.escape_is_pressed:
+            return
+        next = False
+        while not next:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    next = event.key in [pygame.K_RETURN, pygame.K_ESCAPE]
+                    self.escape_is_pressed = event.key == pygame.K_ESCAPE
