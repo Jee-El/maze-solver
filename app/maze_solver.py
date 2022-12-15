@@ -32,8 +32,7 @@ class MazeSolver:
         vertex, path = queue.pop(0)
         self.dfs_explored_states += 1
 
-        while self.__enter_is_not_pressed():
-            pass
+        gui.pause()
         gui.draw_path(path)
         pygame.display.flip()
 
@@ -59,8 +58,7 @@ class MazeSolver:
             vertex, path = queue.pop(0)
             self.bfs_explored_states += 1
 
-            while self.__enter_is_not_pressed():
-                pass
+            gui.pause()
             gui.draw_path(path)
             pygame.display.flip()
 
@@ -84,8 +82,7 @@ class MazeSolver:
             _, vertex, path = priority_queue.get()
             self.gbfs_explored_states += 1
 
-            while self.__enter_is_not_pressed():
-                pass
+            gui.pause()
             gui.draw_path(path)
             pygame.display.flip()
 
@@ -104,13 +101,6 @@ class MazeSolver:
 
     def get_manhattan_distance(self, start, end):
         return abs(start[0] - end[0]) + abs(start[1] - end[1])
-
-    def __enter_is_not_pressed(self):
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    return False
-        return True
 
     def __no_solution_found(self):
         raise Exception("No Solution was found")
