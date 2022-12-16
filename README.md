@@ -17,18 +17,20 @@ I made this project for two reasons :
   - It follows the following format :
 
     - Walls/Obstacles are represented with a `#`
-    
+
     - The start and end points are marked, respectively, with `A` and `B`
-    
+
     - Everything else is represented with an empty space.
-   
+
 - It has these algorithms implemented and available for use :
 
   - Depth-First-Search
- 
+
   - Breadth-First-Search
-  
+
   - Greedy Best-First-Search
+
+- It counts how many states were explored and displays it in your terminal.
 
 # Requirements to run this project :
 
