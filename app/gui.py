@@ -60,7 +60,7 @@ class GUI:
     def draw_maze(self):
         for i in range(self.maze.height):
             for j in range(self.maze.width):
-                char = self.maze.list[i][j]
+                char = self.maze.rows[i][j]
                 self.draw_square(
                     *self.squares_margins[(i, j)], self.char_to_color[char]
                 )
