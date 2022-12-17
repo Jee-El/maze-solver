@@ -36,9 +36,7 @@ class GUI:
         solved = False
         while self._running:
             clock.tick(60)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self._running = False
+            self.listen_for_quit_event()
 
             if not solved:
                 solved_path = self.solve(self)
@@ -115,3 +113,8 @@ class GUI:
                 if event.type == pygame.KEYDOWN:
                     next = event.key in [pygame.K_RETURN, pygame.K_ESCAPE]
                     self.escape_is_pressed = event.key == pygame.K_ESCAPE
+
+    def listen_for_quit_event(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self._running = False
