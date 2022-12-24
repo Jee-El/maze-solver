@@ -34,7 +34,7 @@ I made this project for two reasons :
 
 # Requirements to run this project :
 
-- Python (I tested the project on python 3.9 and 3.11)
+- Python
 
 - PyGame
 
