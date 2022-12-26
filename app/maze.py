@@ -1,7 +1,7 @@
 class Maze:
-    def __init__(self, maze_file):
-        self.to_str = maze_file.read()
-        maze_file.close()
+    def __init__(self, maze_fn):
+        with open(maze_fn + '.txt') as maze_file:
+            self.to_str = maze_file.read()
 
         self.__to_rows()
         self.__to_bool_rows()

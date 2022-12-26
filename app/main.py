@@ -5,8 +5,7 @@ from maze_solver import MazeSolver
 
 
 def solve_maze(maze_fn, algo_name):
-    maze_file = open(maze_fn + ".txt")
-    maze = Maze(maze_file)
+    maze = Maze(maze_fn)
     graph = Graph(maze)
     adjacency_list = graph.adjacency_list
     maze_solver = MazeSolver(maze, adjacency_list)
